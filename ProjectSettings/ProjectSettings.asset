@@ -675,6 +675,7 @@ PlayerSettings:
   webGLCloseOnQuit: 0
   webWasm2023: 0
   scriptingDefineSymbols:
+    Android: DEV_VER
     Standalone: DEV_VER
   additionalCompilerArguments: {}
   platformArchitecture: {}
