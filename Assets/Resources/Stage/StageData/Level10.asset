@@ -17,371 +17,280 @@ MonoBehaviour:
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
-      BubbleColor: -1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
-      BubbleColor: -1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 1
-      BubbleColor: 1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 1
-      BubbleColor: 1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 3
-      BubbleColor: -1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
-      BubbleColor: -1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
-      BubbleColor: -1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
-      BubbleColor: -1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 3
-      BubbleColor: -1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 1
-      BubbleColor: 0
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 1
-      BubbleColor: 1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
-      BubbleColor: -1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
-      BubbleColor: -1
   - Columns:
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
-      BubbleColor: -1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
-      BubbleColor: -1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 2
-      BubbleColor: 3
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
-      BubbleColor: -1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
-      BubbleColor: -1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
-      BubbleColor: -1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
-      BubbleColor: -1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
-      BubbleColor: -1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
-      BubbleColor: -1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
-      BubbleColor: -1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
-      BubbleColor: -1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 2
-      BubbleColor: 3
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
-      BubbleColor: -1
   - Columns:
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
-      BubbleColor: -1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
-      BubbleColor: -1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 1
-      BubbleColor: 0
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 1
-      BubbleColor: 0
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 1
-      BubbleColor: 1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 1
-      BubbleColor: 2
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
-      BubbleColor: -1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 1
-      BubbleColor: 1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 1
-      BubbleColor: 2
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 1
-      BubbleColor: 2
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 1
-      BubbleColor: 2
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
-      BubbleColor: -1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
-      BubbleColor: -1
   - Columns:
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
-      BubbleColor: -1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
-      BubbleColor: -1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
-      BubbleColor: -1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
-      BubbleColor: -1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
-      BubbleColor: -1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
-      BubbleColor: -1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 2
-      BubbleColor: 3
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 1
-      BubbleColor: 1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
-      BubbleColor: -1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
-      BubbleColor: -1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
-      BubbleColor: -1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
-      BubbleColor: -1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
-      BubbleColor: -1
   - Columns:
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
-      BubbleColor: -1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
-      BubbleColor: -1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 1
-      BubbleColor: 2
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 1
-      BubbleColor: 1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 1
-      BubbleColor: 2
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 1
-      BubbleColor: 2
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
-      BubbleColor: -1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 1
-      BubbleColor: 1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 1
-      BubbleColor: 2
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 1
-      BubbleColor: 2
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 1
-      BubbleColor: 0
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
-      BubbleColor: -1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
-      BubbleColor: -1
   - Columns:
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
-      BubbleColor: -1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
-      BubbleColor: -1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 1
-      BubbleColor: 1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
-      BubbleColor: -1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
-      BubbleColor: -1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
-      BubbleColor: -1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
-      BubbleColor: -1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
-      BubbleColor: -1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
-      BubbleColor: -1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
-      BubbleColor: -1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
-      BubbleColor: -1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 1
-      BubbleColor: 2
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
-      BubbleColor: -1
   - Columns:
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
-      BubbleColor: -1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
-      BubbleColor: -1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 1
-      BubbleColor: 0
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 1
-      BubbleColor: 2
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 1
-      BubbleColor: 1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
-      BubbleColor: -1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
-      BubbleColor: -1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
-      BubbleColor: -1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 1
-      BubbleColor: 2
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 2
-      BubbleColor: 3
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 1
-      BubbleColor: 1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
-      BubbleColor: -1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
-      BubbleColor: -1
   RemainingBubbleAmount: 0
