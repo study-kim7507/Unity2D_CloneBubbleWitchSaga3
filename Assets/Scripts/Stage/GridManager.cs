@@ -6,8 +6,14 @@ public class GridManager : SingletonBehaviour<GridManager>
     private GridMaker m_GridMaker;
     private List<Row> m_Grid = new List<Row>();
 
-    [HideInInspector] public float XOffset = 0.5f;
-    [HideInInspector] public float YOffset = 0.5f;
+    [SerializeField] private GameObject m_GlowBubblePrefab;
+    private GameObject m_GlowBubble;
+
+    private int m_TargetRowIdx = 0;
+    private int m_TargetColIdx = 0;
+
+    [HideInInspector] public float XOffset = 0.45f;
+    [HideInInspector] public float YOffset = 0.45f;
 
     [HideInInspector] public float MinBubbleXPos = float.MaxValue;
     [HideInInspector] public float MaxBubbleXPos = float.MinValue;
@@ -26,6 +32,9 @@ public class GridManager : SingletonBehaviour<GridManager>
         base.Init();
 
         m_GridMaker = GetComponent<GridMaker>();
+
+        m_GlowBubble = Instantiate(m_GlowBubblePrefab, Vector3.zero, Quaternion.identity, transform);
+        m_GlowBubble.SetActive(false);
     }
 
     public void GenerateGrid()
@@ -35,55 +44,63 @@ public class GridManager : SingletonBehaviour<GridManager>
 
     public void AttachToGrid(GameObject shootingBubbleGO)
     {
-        // TODO : 모든 셀을 확인하지 않고 처리할 수 있도록 로직 변경 필요
+        GridCell targetCell = m_Grid[m_TargetRowIdx].Columns[m_TargetColIdx];
 
-        if (!shootingBubbleGO.activeSelf)
-            return;
+        shootingBubbleGO.transform.SetParent(transform);
+        shootingBubbleGO.transform.position = targetCell.CellPosition;
+        shootingBubbleGO.tag = "OnGridBubble";
 
-        bool isAddedNewRow = false;
-        if (shootingBubbleGO.transform.position.y < MinBubbleYPos)
+        Bubble bubble = shootingBubbleGO.GetComponent<Bubble>();
+        bubble.colIdx = m_TargetColIdx;
+        bubble.rowIdx = m_TargetRowIdx;
+
+        targetCell.CellGO = shootingBubbleGO;
+        targetCell.CellType = GridCellType.BUBBLE;
+
+        if (m_TargetRowIdx == m_Grid.Count - 1)
         {
             m_GridMaker.GenerateNewRow(m_Grid);
-            isAddedNewRow = true;
+            StageManager.Instance.SetCameraAndShooterPos();
         }
-            
-        
-        float minDistance = float.MaxValue;
-        Vector2Int targetCellIdx = Vector2Int.zero;
+    }
 
-        for (int rowIdx = 0; rowIdx < m_Grid.Count; rowIdx++)
+    public Vector2 SpawnGlowBubble(int rowIdx, int colIdx, Vector3 hitPoint)
+    {
+        int[, ,] idxOffset = new int[2, 6, 2]
         {
-            for (int colIdx = 0; colIdx < m_Grid[rowIdx].Columns.Count; colIdx++)
-            {
-                if (m_Grid[rowIdx].Columns[colIdx].CellType != GridCellType.EMPTY) continue;
+            { { 0, 1 }, { 1, 1 }, { 1, 0 }, { 0, -1 }, { -1, 0 }, { -1, 1 } },
+            { { 0, 1 }, { 1, 0 }, { 1, -1 }, { 0, -1 }, { -1, -1 }, { -1, 0 } }
+        };
 
-                Vector3 currentCellPosition = m_Grid[rowIdx].Columns[colIdx].CellPosition;
-                float dist = Vector3.Distance(currentCellPosition, shootingBubbleGO.transform.position);
-                
-                if (minDistance > dist)
-                {
-                    minDistance = Mathf.Min(minDistance, dist);
-                    targetCellIdx = new Vector2Int(rowIdx, colIdx);
-                }
+
+        float minDist = float.MaxValue; 
+        for (int i = 0; i < 6; i++)
+        {
+            int curRowIdx = rowIdx + idxOffset[rowIdx % 2, i, 0];
+            int curColIdx = colIdx + idxOffset[rowIdx % 2, i, 1];
+
+            if (curRowIdx < 0 || curColIdx < 0) continue;
+            if (curRowIdx >= m_Grid.Count || curColIdx >= m_Grid[curRowIdx].Columns.Count) continue;
+
+            if (m_Grid[curRowIdx].Columns[curColIdx].CellType != GridCellType.EMPTY) continue;
+
+            if (minDist > Vector3.Distance(m_Grid[curRowIdx].Columns[curColIdx].CellPosition, hitPoint))
+            {
+                minDist = Vector3.Distance(m_Grid[curRowIdx].Columns[curColIdx].CellPosition, hitPoint);
+                m_TargetRowIdx = curRowIdx;
+                m_TargetColIdx = curColIdx;
             }
         }
 
-        BubbleColor bubbleColor = shootingBubbleGO.GetComponent<Bubble>().BubbleColor;
-        StageManager.Instance.ReturnToPoolBubbleGO(shootingBubbleGO);
+        Vector3 spawnPosition = m_Grid[m_TargetRowIdx].Columns[m_TargetColIdx].CellPosition;
+        m_GlowBubble.transform.position = spawnPosition;
+        m_GlowBubble.SetActive(true);
 
-        Vector3 position = m_Grid[targetCellIdx.x].Columns[targetCellIdx.y].CellPosition;
-        GridCell newCell = new GridCell();
-        newCell.CellGO = StageManager.Instance.SpawnOnGridBubble(position, GridCellType.BUBBLE, transform, bubbleColor);
-        newCell.CellPosition = position;
-        newCell.CellType = GridCellType.BUBBLE;
+        return new Vector2(spawnPosition.x, spawnPosition.y);
+    }
 
-        Bubble bubble = newCell.CellGO.GetComponent<Bubble>();
-        bubble.rowIdx = targetCellIdx.x;
-        bubble.colIdx = targetCellIdx.y;
-
-        m_Grid[targetCellIdx.x].Columns[targetCellIdx.y] = newCell;
-
-        if (isAddedNewRow)
-            StageManager.Instance.SetCameraAndShooterPos();
+    public void DespawnGlowBubble()
+    {
+        m_GlowBubble.SetActive(false);
     }
 }

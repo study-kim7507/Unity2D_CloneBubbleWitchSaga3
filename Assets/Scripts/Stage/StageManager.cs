@@ -88,10 +88,11 @@ public class StageManager : SingletonBehaviour<StageManager>
         SetCameraAndShooterPos();
     }
 
+
     public GameObject SpawnOnGridBubble(Vector3 position, GridCellType gridCellType, Transform parent, BubbleColor bubbleColor = BubbleColor.NONE)
     {
         GameObject go = null;
-
+        
         if (gridCellType == GridCellType.BUBBLE)
         {
             if (bubbleColor == BubbleColor.NONE) bubbleColor = (BubbleColor)Random.Range(0, 3);

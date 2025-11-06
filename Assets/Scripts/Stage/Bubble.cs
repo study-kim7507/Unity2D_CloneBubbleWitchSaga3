@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
@@ -22,7 +24,6 @@ public class Bubble : MonoBehaviour
 
     private Rigidbody2D m_Rigidbody2D;
     private Collider2D m_Collider2D;
-    private Vector3 m_LastVelocity;
 
     private void Awake()
     {
@@ -30,19 +31,28 @@ public class Bubble : MonoBehaviour
         m_Collider2D = GetComponent<Collider2D>();  
     }
 
-    private void Update()
+    public IEnumerator MoveAlongPath(List<Vector2> path, float speed = 10.0f)
     {
-        m_LastVelocity = m_Rigidbody2D.linearVelocity;
-    }
+        Debug.Log(path.Count);
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (gameObject.tag == "ShootingBubble" && collision.gameObject.tag == "Border")
+        foreach (var targetPos in path)
         {
-            Vector2 direction = Vector2.Reflect(m_LastVelocity.normalized, collision.contacts[0].normal);
-            m_Rigidbody2D.linearVelocity = direction * 10.0f;
+            Vector2 startPos = m_Rigidbody2D.position;
+            float distance = Vector2.Distance(startPos, targetPos);
+            float travelTime = distance / speed;
+            float elapsed = 0f;
+
+            while (elapsed < travelTime)
+            {
+                elapsed += Time.deltaTime;
+                m_Rigidbody2D.MovePosition(Vector2.Lerp(startPos, targetPos, elapsed / travelTime));
+                yield return null;
+            }
+
+            m_Rigidbody2D.MovePosition(targetPos);
         }
-        else if (gameObject.tag == "ShootingBubble" && collision.gameObject.tag == "OnGridBubble")
-            GridManager.Instance.AttachToGrid(gameObject);
+
+        // 이동 완료 후 그리드에 부착
+        GridManager.Instance.AttachToGrid(gameObject);
     }
 }

@@ -23,16 +23,16 @@ public class GridMaker : MonoBehaviour
             {
                 GridCell currentCellData = gridData[rowIdx].Columns[colIdx];
 
-                Vector3 spawnPos = new Vector3(colIdx * GridManager.Instance.XOffset + rowXOffset, rowIdx * GridManager.Instance.YOffset, 0);
+                Vector3 spawnPos = new Vector3(colIdx * GridManager.Instance.XOffset + rowXOffset, (gridData.Count - 1 - rowIdx) * GridManager.Instance.YOffset, 0);
 
                 GridCell currentCell = new GridCell();
+
                 if (currentCellData.CellType != GridCellType.EMPTY)
                 {
                     // 화면 가운데로 정렬하기 위해 포지션 수집
                     GridManager.Instance.MinBubbleXPos = Mathf.Min(GridManager.Instance.MinBubbleXPos, spawnPos.x);
                     GridManager.Instance.MaxBubbleXPos = Mathf.Max(GridManager.Instance.MaxBubbleXPos, spawnPos.x);
-                    GridManager.Instance.MinBubbleYPos = Mathf.Min(GridManager.Instance.MinBubbleYPos, spawnPos.y);
-                 
+                    
                     currentCell.CellGO = StageManager.Instance.SpawnOnGridBubble(spawnPos, currentCellData.CellType, transform);
                     currentCell.CellPosition = spawnPos;
                     currentCell.CellType = currentCellData.CellType;
@@ -43,6 +43,7 @@ public class GridMaker : MonoBehaviour
                 }
                 else currentCell.CellPosition = spawnPos;
 
+                GridManager.Instance.MinBubbleYPos = Mathf.Min(GridManager.Instance.MinBubbleYPos, spawnPos.y);
                 currentRow.Columns.Add(currentCell);
             }
             grid.Add(currentRow);

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3759902870873773154}
   - component: {fileID: 6321486282897827144}
   - component: {fileID: 8717366759754547850}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bubble_r
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,8 +102,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae3e929dd9debbb4ca768a46059943ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colIdx: 0
   rowIdx: 0
+  colIdx: 0
   BubbleColor: 0
 --- !u!50 &6321486282897827144
 Rigidbody2D:
@@ -148,7 +148,7 @@ CircleCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 192
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -167,4 +167,4 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 1.7049999
+  m_Radius: 3

@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6358189010227209456}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfd9589527bfc7041bc89265bfef7dfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_CurrentStageLevel: 0
+  m_CurrentStageLevel: 10
   CurrentStageStat: {fileID: 0}
   m_ColorBubblePrefabs:
   - {fileID: 2772470815233196051, guid: 15582df4e6e00694e9dbb36ea5c202a5, type: 3}
