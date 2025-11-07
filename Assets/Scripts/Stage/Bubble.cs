@@ -10,6 +10,8 @@ public enum BubbleColor
     RED = 0,
     YELLOW,
     BLUE,
+
+    WILDCARD,
 }
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -33,8 +35,6 @@ public class Bubble : MonoBehaviour
 
     public IEnumerator MoveAlongPath(List<Vector2> path, float speed = 10.0f)
     {
-        Debug.Log(path.Count);
-
         foreach (var targetPos in path)
         {
             Vector2 startPos = m_Rigidbody2D.position;

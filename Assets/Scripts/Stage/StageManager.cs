@@ -14,7 +14,6 @@ public class StageManager : SingletonBehaviour<StageManager>
     private Dictionary<BubbleColor, GameObject> m_ColorBubblePrefabsDict = new Dictionary<BubbleColor, GameObject>();
     private Dictionary<BubbleColor, ObjectPool<GameObject>> m_ColorBubblePool = new Dictionary<BubbleColor, ObjectPool<GameObject>>();
 
-    [SerializeField] private GameObject m_WildCardBubblePrefab;
     [SerializeField] private GameObject m_SkeletonBubblePrefab;
 
     [Header("카메라 및 슈터")]
@@ -95,17 +94,17 @@ public class StageManager : SingletonBehaviour<StageManager>
         
         if (gridCellType == GridCellType.BUBBLE)
         {
-            if (bubbleColor == BubbleColor.NONE) bubbleColor = (BubbleColor)Random.Range(0, 3);
+            if (bubbleColor == BubbleColor.NONE)
+            {
+                float rand = Random.value;
+                if (rand <= 0.98f) bubbleColor = (BubbleColor)Random.Range(0, 3);
+                else bubbleColor = BubbleColor.WILDCARD;
+            }
             go = m_ColorBubblePool[bubbleColor].Get();
             go.transform.position = position;
             go.transform.SetParent(parent);
         }
-        else if (gridCellType == GridCellType.BUBBLE_WILDCARD)
-        {
-            go = Instantiate(m_WildCardBubblePrefab, position, Quaternion.identity);
-            go.transform.SetParent(parent);
-        }
-        else if (gridCellType == GridCellType.BUBBLE_SKELTON)
+        else if (gridCellType == GridCellType.SKELETON)
         {
             go = Instantiate(m_SkeletonBubblePrefab, position, Quaternion.identity);
             go.transform.SetParent(parent);

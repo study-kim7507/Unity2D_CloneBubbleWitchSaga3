@@ -65,7 +65,7 @@ public class Shooter : MonoBehaviour
             Vector2 direction = (m_TouchStartPos - m_TouchCurrentPos).normalized;
             List<Vector2> path = GetShootPath(m_CurrentShootingBubbleSpawnPos.position, direction);
             if (path == null)
-                GridManager.Instance.DespawnGlowBubble();
+                GridManager.Instance.DeactivateGlowBubble();
         }
         else if (Input.GetMouseButtonUp(0) && m_IsDragging)
         {
@@ -76,7 +76,7 @@ public class Shooter : MonoBehaviour
             List<Vector2> path = GetShootPath(m_CurrentShootingBubbleSpawnPos.position, direction);
             if (path != null)
                 StartCoroutine(ShootBubble(path));
-            GridManager.Instance.DespawnGlowBubble();
+            GridManager.Instance.DeactivateGlowBubble();
         }
     }
 
@@ -95,7 +95,7 @@ public class Shooter : MonoBehaviour
         if (firstHit.collider.CompareTag("OnGridBubble"))
         {
             Bubble bubble = firstHit.collider.GetComponent<Bubble>();
-            path.Add(GridManager.Instance.SpawnGlowBubble(bubble.rowIdx, bubble.colIdx, firstHit.point));
+            path.Add(GridManager.Instance.ActivateGlowBubble(bubble.rowIdx, bubble.colIdx, firstHit.point));
             return path;
         }
 
@@ -116,12 +116,12 @@ public class Shooter : MonoBehaviour
             if (secondHit.collider.CompareTag("OnGridBubble"))
             {
                 Bubble bubble = secondHit.collider.GetComponent<Bubble>();
-                path.Add(GridManager.Instance.SpawnGlowBubble(bubble.rowIdx, bubble.colIdx, secondHit.point));
+                path.Add(GridManager.Instance.ActivateGlowBubble(bubble.rowIdx, bubble.colIdx, secondHit.point));
                 return path;
             }
         }
 
-        GridManager.Instance.DespawnGlowBubble();
+        GridManager.Instance.DeactivateGlowBubble();
         return null;
     }
 

@@ -5,8 +5,7 @@ public enum GridCellType
 {
     EMPTY = 0,
     BUBBLE,
-    BUBBLE_WILDCARD,
-    BUBBLE_SKELTON,
+    SKELETON,
 
     // 그 외 특수 버블, 아이템 등
 }

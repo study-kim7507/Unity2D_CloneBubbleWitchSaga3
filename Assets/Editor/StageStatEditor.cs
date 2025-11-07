@@ -86,12 +86,8 @@ public class StageStatEditor : Editor
                         GUI.backgroundColor = Color.yellow;
                         break;
 
-                    case GridCellType.BUBBLE_WILDCARD:
+                    case GridCellType.SKELETON:
                         GUI.backgroundColor = Color.white;
-                        break;
-
-                    case GridCellType.BUBBLE_SKELTON:
-                        GUI.backgroundColor = Color.black;
                         break;
                 }
 
@@ -105,14 +101,10 @@ public class StageStatEditor : Editor
                             break;
 
                         case GridCellType.BUBBLE:
-                            currentCell.CellType = GridCellType.BUBBLE_WILDCARD;
+                            currentCell.CellType = GridCellType.SKELETON;
                             break;
 
-                        case GridCellType.BUBBLE_WILDCARD:
-                            currentCell.CellType = GridCellType.BUBBLE_SKELTON;
-                            break;
-
-                        case GridCellType.BUBBLE_SKELTON:
+                        case GridCellType.SKELETON:
                             currentCell.CellType = GridCellType.EMPTY;
                             break;
                     }

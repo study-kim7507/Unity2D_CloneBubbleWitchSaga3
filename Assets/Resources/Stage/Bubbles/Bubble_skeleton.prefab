@@ -28,6 +28,10 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1515034318883274052, guid: 15582df4e6e00694e9dbb36ea5c202a5, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2772470815233196051, guid: 15582df4e6e00694e9dbb36ea5c202a5, type: 3}
       propertyPath: m_Name
       value: Bubble_skeleton

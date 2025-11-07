@@ -28,121 +28,7 @@ MonoBehaviour:
       CellType: 1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
-      CellType: 3
-    - CellGO: {fileID: 0}
-      CellPosition: {x: 0, y: 0, z: 0}
-      CellType: 0
-    - CellGO: {fileID: 0}
-      CellPosition: {x: 0, y: 0, z: 0}
-      CellType: 0
-    - CellGO: {fileID: 0}
-      CellPosition: {x: 0, y: 0, z: 0}
-      CellType: 0
-    - CellGO: {fileID: 0}
-      CellPosition: {x: 0, y: 0, z: 0}
-      CellType: 3
-    - CellGO: {fileID: 0}
-      CellPosition: {x: 0, y: 0, z: 0}
-      CellType: 1
-    - CellGO: {fileID: 0}
-      CellPosition: {x: 0, y: 0, z: 0}
-      CellType: 1
-    - CellGO: {fileID: 0}
-      CellPosition: {x: 0, y: 0, z: 0}
-      CellType: 0
-    - CellGO: {fileID: 0}
-      CellPosition: {x: 0, y: 0, z: 0}
-      CellType: 0
-  - Columns:
-    - CellGO: {fileID: 0}
-      CellPosition: {x: 0, y: 0, z: 0}
-      CellType: 0
-    - CellGO: {fileID: 0}
-      CellPosition: {x: 0, y: 0, z: 0}
-      CellType: 0
-    - CellGO: {fileID: 0}
-      CellPosition: {x: 0, y: 0, z: 0}
       CellType: 2
-    - CellGO: {fileID: 0}
-      CellPosition: {x: 0, y: 0, z: 0}
-      CellType: 0
-    - CellGO: {fileID: 0}
-      CellPosition: {x: 0, y: 0, z: 0}
-      CellType: 0
-    - CellGO: {fileID: 0}
-      CellPosition: {x: 0, y: 0, z: 0}
-      CellType: 0
-    - CellGO: {fileID: 0}
-      CellPosition: {x: 0, y: 0, z: 0}
-      CellType: 0
-    - CellGO: {fileID: 0}
-      CellPosition: {x: 0, y: 0, z: 0}
-      CellType: 0
-    - CellGO: {fileID: 0}
-      CellPosition: {x: 0, y: 0, z: 0}
-      CellType: 0
-    - CellGO: {fileID: 0}
-      CellPosition: {x: 0, y: 0, z: 0}
-      CellType: 0
-    - CellGO: {fileID: 0}
-      CellPosition: {x: 0, y: 0, z: 0}
-      CellType: 0
-    - CellGO: {fileID: 0}
-      CellPosition: {x: 0, y: 0, z: 0}
-      CellType: 2
-    - CellGO: {fileID: 0}
-      CellPosition: {x: 0, y: 0, z: 0}
-      CellType: 0
-  - Columns:
-    - CellGO: {fileID: 0}
-      CellPosition: {x: 0, y: 0, z: 0}
-      CellType: 0
-    - CellGO: {fileID: 0}
-      CellPosition: {x: 0, y: 0, z: 0}
-      CellType: 0
-    - CellGO: {fileID: 0}
-      CellPosition: {x: 0, y: 0, z: 0}
-      CellType: 1
-    - CellGO: {fileID: 0}
-      CellPosition: {x: 0, y: 0, z: 0}
-      CellType: 1
-    - CellGO: {fileID: 0}
-      CellPosition: {x: 0, y: 0, z: 0}
-      CellType: 1
-    - CellGO: {fileID: 0}
-      CellPosition: {x: 0, y: 0, z: 0}
-      CellType: 1
-    - CellGO: {fileID: 0}
-      CellPosition: {x: 0, y: 0, z: 0}
-      CellType: 0
-    - CellGO: {fileID: 0}
-      CellPosition: {x: 0, y: 0, z: 0}
-      CellType: 1
-    - CellGO: {fileID: 0}
-      CellPosition: {x: 0, y: 0, z: 0}
-      CellType: 1
-    - CellGO: {fileID: 0}
-      CellPosition: {x: 0, y: 0, z: 0}
-      CellType: 1
-    - CellGO: {fileID: 0}
-      CellPosition: {x: 0, y: 0, z: 0}
-      CellType: 1
-    - CellGO: {fileID: 0}
-      CellPosition: {x: 0, y: 0, z: 0}
-      CellType: 0
-    - CellGO: {fileID: 0}
-      CellPosition: {x: 0, y: 0, z: 0}
-      CellType: 0
-  - Columns:
-    - CellGO: {fileID: 0}
-      CellPosition: {x: 0, y: 0, z: 0}
-      CellType: 0
-    - CellGO: {fileID: 0}
-      CellPosition: {x: 0, y: 0, z: 0}
-      CellType: 0
-    - CellGO: {fileID: 0}
-      CellPosition: {x: 0, y: 0, z: 0}
-      CellType: 0
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
@@ -160,6 +46,120 @@ MonoBehaviour:
       CellType: 1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
+      CellType: 1
+    - CellGO: {fileID: 0}
+      CellPosition: {x: 0, y: 0, z: 0}
+      CellType: 0
+    - CellGO: {fileID: 0}
+      CellPosition: {x: 0, y: 0, z: 0}
+      CellType: 0
+  - Columns:
+    - CellGO: {fileID: 0}
+      CellPosition: {x: 0, y: 0, z: 0}
+      CellType: 0
+    - CellGO: {fileID: 0}
+      CellPosition: {x: 0, y: 0, z: 0}
+      CellType: 0
+    - CellGO: {fileID: 0}
+      CellPosition: {x: 0, y: 0, z: 0}
+      CellType: 1
+    - CellGO: {fileID: 0}
+      CellPosition: {x: 0, y: 0, z: 0}
+      CellType: 0
+    - CellGO: {fileID: 0}
+      CellPosition: {x: 0, y: 0, z: 0}
+      CellType: 0
+    - CellGO: {fileID: 0}
+      CellPosition: {x: 0, y: 0, z: 0}
+      CellType: 0
+    - CellGO: {fileID: 0}
+      CellPosition: {x: 0, y: 0, z: 0}
+      CellType: 0
+    - CellGO: {fileID: 0}
+      CellPosition: {x: 0, y: 0, z: 0}
+      CellType: 0
+    - CellGO: {fileID: 0}
+      CellPosition: {x: 0, y: 0, z: 0}
+      CellType: 0
+    - CellGO: {fileID: 0}
+      CellPosition: {x: 0, y: 0, z: 0}
+      CellType: 0
+    - CellGO: {fileID: 0}
+      CellPosition: {x: 0, y: 0, z: 0}
+      CellType: 0
+    - CellGO: {fileID: 0}
+      CellPosition: {x: 0, y: 0, z: 0}
+      CellType: 1
+    - CellGO: {fileID: 0}
+      CellPosition: {x: 0, y: 0, z: 0}
+      CellType: 0
+  - Columns:
+    - CellGO: {fileID: 0}
+      CellPosition: {x: 0, y: 0, z: 0}
+      CellType: 0
+    - CellGO: {fileID: 0}
+      CellPosition: {x: 0, y: 0, z: 0}
+      CellType: 0
+    - CellGO: {fileID: 0}
+      CellPosition: {x: 0, y: 0, z: 0}
+      CellType: 1
+    - CellGO: {fileID: 0}
+      CellPosition: {x: 0, y: 0, z: 0}
+      CellType: 1
+    - CellGO: {fileID: 0}
+      CellPosition: {x: 0, y: 0, z: 0}
+      CellType: 1
+    - CellGO: {fileID: 0}
+      CellPosition: {x: 0, y: 0, z: 0}
+      CellType: 1
+    - CellGO: {fileID: 0}
+      CellPosition: {x: 0, y: 0, z: 0}
+      CellType: 0
+    - CellGO: {fileID: 0}
+      CellPosition: {x: 0, y: 0, z: 0}
+      CellType: 1
+    - CellGO: {fileID: 0}
+      CellPosition: {x: 0, y: 0, z: 0}
+      CellType: 1
+    - CellGO: {fileID: 0}
+      CellPosition: {x: 0, y: 0, z: 0}
+      CellType: 1
+    - CellGO: {fileID: 0}
+      CellPosition: {x: 0, y: 0, z: 0}
+      CellType: 1
+    - CellGO: {fileID: 0}
+      CellPosition: {x: 0, y: 0, z: 0}
+      CellType: 0
+    - CellGO: {fileID: 0}
+      CellPosition: {x: 0, y: 0, z: 0}
+      CellType: 0
+  - Columns:
+    - CellGO: {fileID: 0}
+      CellPosition: {x: 0, y: 0, z: 0}
+      CellType: 0
+    - CellGO: {fileID: 0}
+      CellPosition: {x: 0, y: 0, z: 0}
+      CellType: 0
+    - CellGO: {fileID: 0}
+      CellPosition: {x: 0, y: 0, z: 0}
+      CellType: 0
+    - CellGO: {fileID: 0}
+      CellPosition: {x: 0, y: 0, z: 0}
+      CellType: 0
+    - CellGO: {fileID: 0}
+      CellPosition: {x: 0, y: 0, z: 0}
+      CellType: 0
+    - CellGO: {fileID: 0}
+      CellPosition: {x: 0, y: 0, z: 0}
+      CellType: 0
+    - CellGO: {fileID: 0}
+      CellPosition: {x: 0, y: 0, z: 0}
+      CellType: 1
+    - CellGO: {fileID: 0}
+      CellPosition: {x: 0, y: 0, z: 0}
+      CellType: 1
+    - CellGO: {fileID: 0}
+      CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
@@ -283,7 +283,7 @@ MonoBehaviour:
       CellType: 1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
-      CellType: 2
+      CellType: 1
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 1
@@ -333,4 +333,4 @@ MonoBehaviour:
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
-  RemainingBubbleAmount: 0
+  RemainingBubbleAmount: 22
