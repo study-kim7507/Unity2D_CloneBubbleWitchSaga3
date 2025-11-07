@@ -51,5 +51,6 @@ MonoBehaviour:
   - {fileID: 7295706900373772222, guid: 874eaf0421a6d5b4e890726c755d303e, type: 3}
   - {fileID: 2743894544901071804, guid: 4db743239bca1c24394534a66c6878c0, type: 3}
   - {fileID: 4939507714862158892, guid: 2fe7c06cbe786154db78cb5ae10f838f, type: 3}
-  m_SkeletonBubblePrefab: {fileID: 1899831161776148027, guid: 840e7157cb21a2840a4680f7c1524975, type: 3}
+  m_SpawnerBubblePrefab: {fileID: 1899831161776148027, guid: 840e7157cb21a2840a4680f7c1524975, type: 3}
+  m_BubblePopVFXPrefab: {fileID: 1449242181322416601, guid: 79b199df08c89d1479dffa87039bb4a6, type: 3}
   m_ShooterPrefab: {fileID: 1104837758042134760, guid: a3f8e4c7d8822f143aa2c1136349b048, type: 3}

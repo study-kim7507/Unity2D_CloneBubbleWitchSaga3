@@ -83,6 +83,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UICanvasTransform: {fileID: 68617231204038468}
   ClosedUITransform: {fileID: 5548765157707806760}
+  UICamera: {fileID: 2675646514886752402}
 --- !u!1 &7699581093866960675
 GameObject:
   m_ObjectHideFlags: 0

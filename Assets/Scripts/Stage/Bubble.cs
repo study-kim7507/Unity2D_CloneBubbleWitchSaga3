@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,7 +15,6 @@ public enum BubbleColor
     WILDCARD,
 }
 
-[RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Collider2D))]
 public class Bubble : MonoBehaviour
 {
@@ -23,36 +23,37 @@ public class Bubble : MonoBehaviour
     [HideInInspector] public int colIdx;
 
     public BubbleColor BubbleColor;
+    public GameObject GlowEffect;
 
-    private Rigidbody2D m_Rigidbody2D;
     private Collider2D m_Collider2D;
 
     private void Awake()
     {
-        m_Rigidbody2D = GetComponent<Rigidbody2D>();
         m_Collider2D = GetComponent<Collider2D>();  
     }
 
-    public IEnumerator MoveAlongPath(List<Vector2> path, float speed = 10.0f)
+    public void ActivateGlowEffect()
     {
-        foreach (var targetPos in path)
+        GlowEffect.SetActive(true);
+    }
+
+    public void DeactivateGlowEffect()
+    {
+        GlowEffect.SetActive(false);
+    }
+
+    public IEnumerator MoveAlongPath(List<Vector2> paths)
+    {
+        Sequence sequence = DOTween.Sequence();
+
+        foreach (Vector2 path in paths)
         {
-            Vector2 startPos = m_Rigidbody2D.position;
-            float distance = Vector2.Distance(startPos, targetPos);
-            float travelTime = distance / speed;
-            float elapsed = 0f;
+            Vector3 currentPos = transform.position;
+            Vector3 targetPos = path;
 
-            while (elapsed < travelTime)
-            {
-                elapsed += Time.deltaTime;
-                m_Rigidbody2D.MovePosition(Vector2.Lerp(startPos, targetPos, elapsed / travelTime));
-                yield return null;
-            }
-
-            m_Rigidbody2D.MovePosition(targetPos);
+            sequence.Append(transform.DOMove(targetPos, 0.2f).SetEase(Ease.Linear));
         }
-
-        // 이동 완료 후 그리드에 부착
-        GridManager.Instance.AttachToGrid(gameObject);
+        sequence.OnComplete(() => GridManager.Instance.AttachToGrid(gameObject));
+        yield return sequence.WaitForCompletion();
     }
 }

@@ -1,6 +1,8 @@
-﻿using System;
+﻿using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class GridManager : SingletonBehaviour<GridManager>
@@ -21,7 +23,6 @@ public class GridManager : SingletonBehaviour<GridManager>
     [HideInInspector] public float MaxBubbleXPos = float.MinValue;
     [HideInInspector] public float MinBubbleYPos = float.MaxValue;
     [HideInInspector] public float CenterXPos => (MinBubbleXPos + MaxBubbleXPos) / 2.0f;
-
 
     private void Awake()
     {
@@ -44,6 +45,8 @@ public class GridManager : SingletonBehaviour<GridManager>
     {
         m_GridMaker.GenerateGrid(m_Grid);
         m_GridMaker.GeneratePath(m_Grid);
+
+        StageManager.Instance.UpdateCameraAndShooterPos(m_Grid, true);
     }
 
     public void AttachToGrid(GameObject shootingBubbleGO)
@@ -67,15 +70,15 @@ public class GridManager : SingletonBehaviour<GridManager>
         targetCell.CellType = GridCellType.BUBBLE;
 
         if (m_TargetRowIdx == m_Grid.Count - 1)
-        {
             m_GridMaker.GenerateNewRow(m_Grid);
-            StageManager.Instance.SetCameraAndShooterPos();
-        }
 
         PopBubble(m_TargetRowIdx, m_TargetColIdx);
         PopFloatingBubbles();
         yield return StartCoroutine(MoveRemainingBubblesAlongPath());
         yield return StartCoroutine(SpawnAndMoveNewBubblesAlongPath());
+
+        StageManager.Instance.CanShoot = true;
+        StageManager.Instance.UpdateCameraAndShooterPos(m_Grid);
     }
 
     private void PopBubble(int startRowIdx, int startColIdx)
@@ -115,7 +118,7 @@ public class GridManager : SingletonBehaviour<GridManager>
                     if (visited.Contains((nxtRowIdx, nxtColIdx))) continue;
 
                     GridCell neighbor = m_Grid[nxtRowIdx].Columns[nxtColIdx];
-                    if (neighbor.CellType == GridCellType.EMPTY || neighbor.CellType == GridCellType.SKELETON) continue;
+                    if (neighbor.CellType == GridCellType.EMPTY || neighbor.CellType == GridCellType.BUBBLE_SPAWNER) continue;
 
                     queue.Enqueue((nxtRowIdx, nxtColIdx, true)); // WildCard에서 들어온 경우
                     visited.Add((nxtRowIdx, nxtColIdx));
@@ -134,7 +137,7 @@ public class GridManager : SingletonBehaviour<GridManager>
                     if (visited.Contains((nxtRowIdx, nxtColIdx))) continue;
 
                     GridCell neighbor = m_Grid[nxtRowIdx].Columns[nxtColIdx];
-                    if (neighbor.CellType == GridCellType.EMPTY || neighbor.CellType == GridCellType.SKELETON) continue;
+                    if (neighbor.CellType == GridCellType.EMPTY || neighbor.CellType == GridCellType.BUBBLE_SPAWNER) continue;
 
                     Bubble neighborBubble = neighbor.CellGO.GetComponent<Bubble>();
                     if (neighborBubble.BubbleColor == startBubbleColor || neighborBubble.BubbleColor == BubbleColor.WILDCARD)
@@ -155,6 +158,7 @@ public class GridManager : SingletonBehaviour<GridManager>
                 StageManager.Instance.ReturnToPoolBubbleGO(curCell.CellGO);
                 curCell.CellGO = null;
                 curCell.CellType = GridCellType.EMPTY;
+                StageManager.Instance.SpawnBubblePopVFX(curCell.CellPosition);
             }
         }
     }
@@ -213,6 +217,7 @@ public class GridManager : SingletonBehaviour<GridManager>
                     StageManager.Instance.ReturnToPoolBubbleGO(cell.CellGO);
                     cell.CellGO = null;
                     cell.CellType = GridCellType.EMPTY;
+                    StageManager.Instance.SpawnBubblePopVFX(cell.CellPosition);
                 }
             }
         }
@@ -222,66 +227,66 @@ public class GridManager : SingletonBehaviour<GridManager>
     {
         List<List<Tuple<Vector2Int, Vector2Int>>> pathes = m_GridMaker.GetPaths();
 
+        Sequence allSequence = DOTween.Sequence();
         foreach (List<Tuple<Vector2Int, Vector2Int>> path in pathes)
         {
-            if (path == null || path.Count == 0)
-                continue;
-
-            // [스폰 지점, 다음1 지점, 다음2 지점, 다음3 지점, ,,,, 끝 지점]
+            // 경로 순서 정리 [스폰지점, 다음1, 다음2, ...]
             List<Vector2Int> ordered = new List<Vector2Int>();
             ordered.Add(path[0].Item1);
             foreach (var tuple in path)
                 ordered.Add(tuple.Item2);
 
-            Queue<(Vector2Int from, Vector2Int to)> moveQueue = new Queue<(Vector2Int, Vector2Int)>();
-
-            int lastEmptyIndex = -1;
+            Sequence mainSequence = DOTween.Sequence();
             for (int i = ordered.Count - 1; i >= 1; i--)
             {
-                GridCell cell = m_Grid[ordered[i].x].Columns[ordered[i].y];
-                if (cell.CellGO == null)
+                GridCell curCell = m_Grid[ordered[i].x].Columns[ordered[i].y];
+                if (curCell.CellType != GridCellType.EMPTY) continue;
+
+                GridCell movingCell = null;
+                List<Vector3> movePositions = new List<Vector3>();
+                movePositions.Add(curCell.CellPosition);
+
+                for (int j = i - 1; j >= 1; j--)
                 {
-                    if (lastEmptyIndex == -1)
-                        lastEmptyIndex = i;
+                    GridCell prevCell = m_Grid[ordered[j].x].Columns[ordered[j].y];
+
+                    if (prevCell.CellType == GridCellType.EMPTY)
+                        movePositions.Add(prevCell.CellPosition);
+                    else if (prevCell.CellType == GridCellType.BUBBLE)
+                    {
+                        movingCell = prevCell;
+                        movePositions.Reverse();
+                        break;
+                    }
                 }
-                else if (lastEmptyIndex != -1)
-                {
-                    moveQueue.Enqueue((ordered[i], ordered[lastEmptyIndex]));
-                    lastEmptyIndex--; 
-                }
+
+                if (movingCell == null) continue; // 이동할 버블 없음
+
+                curCell.CellGO = movingCell.CellGO;
+                curCell.CellType = movingCell.CellType;
+                movingCell.CellGO = null;
+                movingCell.CellType = GridCellType.EMPTY;
+
+                Bubble bubble = curCell.CellGO.GetComponent<Bubble>();
+                bubble.rowIdx = ordered[i].x;
+                bubble.colIdx = ordered[i].y;
+
+                Sequence subSequence = DOTween.Sequence();
+                foreach (var targetPos in movePositions)
+                    subSequence.Append(curCell.CellGO.transform.DOMove(targetPos, 0.1f).SetEase(Ease.Linear));
+                mainSequence.Insert(0.1f * ((ordered.Count - 1) - i), subSequence);
             }
-
-            while (moveQueue.Count > 0)
-            {
-                var (from, to) = moveQueue.Dequeue();
-
-                GridCell fromCell = m_Grid[from.x].Columns[from.y];
-                GridCell toCell = m_Grid[to.x].Columns[to.y];
-
-                if (fromCell.CellGO == null) continue;
-
-                toCell.CellGO = fromCell.CellGO;
-                toCell.CellType = fromCell.CellType;
-                toCell.CellGO.transform.position = toCell.CellPosition;
-
-                Bubble bubble = toCell.CellGO.GetComponent<Bubble>();
-                bubble.rowIdx = to.x;
-                bubble.colIdx = to.y;
-
-                fromCell.CellGO = null;
-                fromCell.CellType = GridCellType.EMPTY;
-
-                yield return new WaitForSeconds(0.05f);
-            }
+            allSequence.Join(mainSequence);
         }
+        yield return allSequence.WaitForCompletion();
     }
-
 
 
     private IEnumerator SpawnAndMoveNewBubblesAlongPath()
     {
         List<List<Tuple<Vector2Int, Vector2Int>>> pathes = m_GridMaker.GetPaths();
 
+        Sequence allSequence = DOTween.Sequence();
         foreach (List<Tuple<Vector2Int, Vector2Int>> path in pathes)
         {
             if (path == null || path.Count == 0)
@@ -295,80 +300,60 @@ public class GridManager : SingletonBehaviour<GridManager>
 
             // 경로 내 빈 셀 개수 확인
             int emptyCellCount = 0;
-            foreach (var pos in ordered)
+            for (int i = 0; i < ordered.Count; i++)
             {
-                if (m_Grid[pos.x].Columns[pos.y].CellType == GridCellType.EMPTY)
+                if (m_Grid[ordered[i].x].Columns[ordered[i].y].CellType == GridCellType.EMPTY)
                     emptyCellCount++;
             }
 
-            // 빈 셀 개수만큼 반복적으로 버블 생성 및 이동
-            while (emptyCellCount-- > 0)
+            List<GameObject> newBubbles = new List<GameObject>();
+            for (int i = 0; i < emptyCellCount; i++)
             {
-                Vector2Int spawnPos = ordered[0]; // 스폰 위치
-                Vector2Int firstTargetPos = ordered[1]; // 실제 첫 도착 셀
+                Vector2Int spawnCellIdx = ordered[0];
+                GridCell spawnCell = m_Grid[spawnCellIdx.x].Columns[spawnCellIdx.y];
 
-                GridCell spawnCell = m_Grid[spawnPos.x].Columns[spawnPos.y];
-                GridCell firstTargetCell = m_Grid[firstTargetPos.x].Columns[firstTargetPos.y];
+                GameObject newBubbleGO = StageManager.Instance.BarrowFromPoolOnGridBubble(spawnCell.CellPosition, GridCellType.BUBBLE, transform);
+                newBubbles.Add(newBubbleGO);
+            }
 
-                // ✅ 스폰셀은 건드리지 않는다.
-                // 버블은 단지 스폰셀의 "위치" 위에서 생성만 한다.
-                Vector3 spawnWorldPos = spawnCell.CellPosition;
+            Sequence mainSequence = DOTween.Sequence();
+            for (int i = 0; i < newBubbles.Count; i++)
+            {
+                GameObject bubbleGO = newBubbles[i];
+                Bubble bubble = bubbleGO.GetComponent<Bubble>();
 
-                // 버블 생성 (스폰셀 위 위치에서 생성)
-                GameObject newBubbleGO = StageManager.Instance.SpawnOnGridBubble(spawnWorldPos, GridCellType.BUBBLE, transform);
-                newBubbleGO.transform.position = spawnWorldPos;
-                newBubbleGO.SetActive(true);
+                int targetCellRowIdx = 0;
+                int targetCellColIdx = 0;
 
-                Bubble newBubble = newBubbleGO.GetComponent<Bubble>();
-                newBubble.rowIdx = firstTargetPos.x;
-                newBubble.colIdx = firstTargetPos.y;
-
-                // ✅ 스폰셀의 CellGO나 CellType은 절대 건드리지 않음
-
-                // 첫 번째 이동 대상 셀에 배치
-                firstTargetCell.CellGO = newBubbleGO;
-                firstTargetCell.CellType = GridCellType.BUBBLE;
-
-                // 첫 번째 이동: 스폰 위치 → 첫 셀로 자연스럽게 이동
-                newBubbleGO.transform.position = firstTargetCell.CellPosition;
-                yield return new WaitForSeconds(0.05f);
-
-                // 이후 한 칸씩 순차 이동
-                for (int i = 1; i < ordered.Count - 1; i++)
+                List<Vector3> movePositions = new List<Vector3>();
+                for (int j = 1; j < ordered.Count; j++)
                 {
-                    Vector2Int from = ordered[i];
-                    Vector2Int to = ordered[i + 1];
+                    Vector2Int toCellIdx = ordered[j];
+                    GridCell toCell = m_Grid[toCellIdx.x].Columns[toCellIdx.y];
 
-                    GridCell fromCell = m_Grid[from.x].Columns[from.y];
-                    GridCell toCell = m_Grid[to.x].Columns[to.y];
+                    if (toCell.CellType != GridCellType.EMPTY) break;
+                    movePositions.Add(toCell.CellPosition);
 
-                    if (toCell.CellGO != null)
-                        break;
-
-                    // 이동
-                    toCell.CellGO = fromCell.CellGO;
-                    toCell.CellType = fromCell.CellType;
-                    toCell.CellGO.transform.position = toCell.CellPosition;
-
-                    Bubble bubble = toCell.CellGO.GetComponent<Bubble>();
-                    bubble.rowIdx = to.x;
-                    bubble.colIdx = to.y;
-
-                    // 원래 칸 비움
-                    fromCell.CellGO = null;
-                    fromCell.CellType = GridCellType.EMPTY;
-
-                    yield return new WaitForSeconds(0.05f);
+                    targetCellRowIdx = toCellIdx.x;
+                    targetCellColIdx = toCellIdx.y;
                 }
 
-                // 다음 버블 생성 전 잠깐 대기
-                yield return new WaitForSeconds(0.05f);
+                GridCell targetCell = m_Grid[targetCellRowIdx].Columns[targetCellColIdx];
+                targetCell.CellGO = bubbleGO;
+                targetCell.CellType = GridCellType.BUBBLE;
+
+                bubble.rowIdx = targetCellRowIdx;
+                bubble.colIdx = targetCellColIdx;
+
+                Sequence subSequence = DOTween.Sequence();
+                foreach (var targetPosition in movePositions)
+                    subSequence.Append(bubbleGO.transform.DOMove(targetPosition, 0.1f).SetEase(Ease.Linear));
+                mainSequence.Insert(0.1f * i, subSequence); 
             }
+            allSequence.Join(mainSequence);
         }
+        yield return allSequence.WaitForCompletion();
     }
-
-
-
 
     public Vector2 ActivateGlowBubble(int rowIdx, int colIdx, Vector3 hitPoint)
     {
@@ -377,7 +362,6 @@ public class GridManager : SingletonBehaviour<GridManager>
             { { 0, 1 }, { 1, 1 }, { 1, 0 }, { 0, -1 }, { -1, 0 }, { -1, 1 } },
             { { 0, 1 }, { 1, 0 }, { 1, -1 }, { 0, -1 }, { -1, -1 }, { -1, 0 } }
         };
-
 
         float minDist = float.MaxValue; 
         for (int i = 0; i < 6; i++)

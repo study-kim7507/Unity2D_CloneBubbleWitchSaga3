@@ -40,9 +40,7 @@ public class GridMaker : MonoBehaviour
                     GridManager.Instance.MinBubbleXPos = Mathf.Min(GridManager.Instance.MinBubbleXPos, spawnPos.x);
                     GridManager.Instance.MaxBubbleXPos = Mathf.Max(GridManager.Instance.MaxBubbleXPos, spawnPos.x);
 
-                    Logger.Log($"{spawnPos}, {currentCellData.CellType}, {transform}");
-
-                    currentCell.CellGO = StageManager.Instance.SpawnOnGridBubble(spawnPos, currentCellData.CellType, transform);
+                    currentCell.CellGO = StageManager.Instance.BarrowFromPoolOnGridBubble(spawnPos, currentCellData.CellType, transform);
                     currentCell.CellPosition = spawnPos;
                     currentCell.CellType = currentCellData.CellType;
 
@@ -50,7 +48,7 @@ public class GridMaker : MonoBehaviour
                     bubble.colIdx = colIdx;
                     bubble.rowIdx = rowIdx;
 
-                    if (currentCellData.CellType == GridCellType.SKELETON)
+                    if (currentCellData.CellType == GridCellType.BUBBLE_SPAWNER)
                         m_SpawnPositions.Add(new Vector2Int(rowIdx, colIdx));
                 }
                 else currentCell.CellPosition = spawnPos;

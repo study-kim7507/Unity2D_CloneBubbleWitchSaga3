@@ -11,24 +11,25 @@ public class StageStatEditor : Editor
     {
         StageStat stageData = (StageStat)target;
 
-        GUILayout.Label("버블 그리드 설정", EditorStyles.boldLabel);
+        GUILayout.Label("초기 그리드 설정", EditorStyles.boldLabel);
         GUILayout.Space(5);
 
         // 행 / 열 개수 조절
         m_rowCount = EditorGUILayout.IntField("Row Count", stageData.GridData.Count > 0 ? stageData.GridData.Count : m_rowCount);
         m_rowCount = Mathf.Clamp(m_rowCount, 0, 15);
-        EnsureRowCount(stageData, m_rowCount);
+        UpdateRowCount(stageData, m_rowCount);
 
         m_columnCount = EditorGUILayout.IntField("Column Count", stageData.GridData.Count > 0 ? stageData.GridData[0].Columns.Count : m_columnCount);
         m_columnCount = Mathf.Clamp(m_columnCount, 0, 15);
-        EnsureColumnCount(stageData, m_columnCount);
+        UpdateColumnCount(stageData, m_columnCount);
 
         GUILayout.Space(10);
-        DrawGridEditor(stageData);
+        DrawGrid(stageData);
 
         GUILayout.Space(10);
         GUILayout.Label("스테이지 정보", EditorStyles.boldLabel);
-        stageData.RemainingBubbleAmount = EditorGUILayout.IntField("남은 버블 수", stageData.RemainingBubbleAmount);
+        stageData.RemaingBossHealth = EditorGUILayout.FloatField("초기 보스 체력", stageData.RemaingBossHealth);
+        stageData.RemainingBubbleAmount = EditorGUILayout.IntField("초기 버블 수", stageData.RemainingBubbleAmount);
 
         if (GUI.changed)
         {
@@ -36,7 +37,7 @@ public class StageStatEditor : Editor
         }
     }
 
-    private void EnsureRowCount(StageStat currentStageData, int rowCount)
+    private void UpdateRowCount(StageStat currentStageData, int rowCount)
     {
         while (currentStageData.GridData.Count < rowCount)
             currentStageData.GridData.Add(new Row());
@@ -45,7 +46,7 @@ public class StageStatEditor : Editor
             currentStageData.GridData.RemoveAt(currentStageData.GridData.Count - 1);
     }
 
-    private void EnsureColumnCount(StageStat currentStageData, int columnCount)
+    private void UpdateColumnCount(StageStat currentStageData, int columnCount)
     {
         foreach (var row in currentStageData.GridData)
         {
@@ -57,7 +58,7 @@ public class StageStatEditor : Editor
         }
     }
 
-    private void DrawGridEditor(StageStat currentStageData)
+    private void DrawGrid(StageStat currentStageData)
     {
         GUILayout.Space(10);
         GUILayout.Label("그리드 미리보기", EditorStyles.boldLabel);
@@ -86,7 +87,7 @@ public class StageStatEditor : Editor
                         GUI.backgroundColor = Color.yellow;
                         break;
 
-                    case GridCellType.SKELETON:
+                    case GridCellType.BUBBLE_SPAWNER:
                         GUI.backgroundColor = Color.white;
                         break;
                 }
@@ -101,10 +102,10 @@ public class StageStatEditor : Editor
                             break;
 
                         case GridCellType.BUBBLE:
-                            currentCell.CellType = GridCellType.SKELETON;
+                            currentCell.CellType = GridCellType.BUBBLE_SPAWNER;
                             break;
 
-                        case GridCellType.SKELETON:
+                        case GridCellType.BUBBLE_SPAWNER:
                             currentCell.CellType = GridCellType.EMPTY;
                             break;
                     }

@@ -10,6 +10,7 @@ public class UIManager : SingletonBehaviour<UIManager>
     private Dictionary<System.Type, GameObject> m_OpenUIPool = new Dictionary<System.Type, GameObject>();       // 현재 활성화 되어있는 (열려있는) UI화면을 보관
     private Dictionary<System.Type, GameObject> m_CloseUIPool = new Dictionary<System.Type, GameObject>();      // 현재 비활성화 되어있는 (닫혀있는) UI화면을 보관 
 
+    public Camera UICamera;
     private BaseUI GetUI<T>(out bool isAlreadyOpen)
     {
         System.Type uiType = typeof(T);
