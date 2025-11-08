@@ -52,6 +52,7 @@ public class ConfirmUI : BaseUI
 
     public void OnClickOKButton()
     {
+        Debug.Log("TEST");
         m_OnClickOKButton?.Invoke();
         m_OnClickOKButton = null;
         CloseUI();

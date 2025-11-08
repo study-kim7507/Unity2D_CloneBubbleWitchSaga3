@@ -156,7 +156,7 @@ GameObject:
   - component: {fileID: 5117203977189900343}
   - component: {fileID: 4039337288206776090}
   m_Layer: 5
-  m_Name: StageCanvas
+  m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -341,7 +341,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 269846389431212828}
-  - component: {fileID: 838177003057835046}
+  - component: {fileID: 2099905465743893287}
   m_Layer: 0
   m_Name: StageUIController
   m_TagString: Untagged
@@ -365,7 +365,7 @@ Transform:
   - {fileID: 6407202814845831090}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &838177003057835046
+--- !u!114 &2099905465743893287
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

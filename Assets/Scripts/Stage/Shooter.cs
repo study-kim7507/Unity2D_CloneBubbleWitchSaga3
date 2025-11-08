@@ -33,12 +33,6 @@ public class Shooter : MonoBehaviour
         StageManager.Instance.OnRemainingBubbleAmountChanged += UpdateRemainingBubbleAmountText;
     }
 
-    private void OnDisable()
-    {
-        StageManager.Instance.OnRemainingBubbleAmountChanged -= UpdateRemainingBubbleAmountText;
-    }
-
-
     private void Update()
     {
         ProcessInput();

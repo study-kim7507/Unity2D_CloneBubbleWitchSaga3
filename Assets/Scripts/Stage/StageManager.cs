@@ -21,7 +21,7 @@ public class StageManager : SingletonBehaviour<StageManager>
         {
             m_RemainingBossHealth = Mathf.Max(0f, value);
             OnRemaingBossHealthChanged?.Invoke();
-            if (m_RemainingBossHealth <= 0.0f) Win();
+            if (m_RemainingBossHealth <= 0.0f) StageEnd(true);
         }
     }
 
@@ -32,7 +32,7 @@ public class StageManager : SingletonBehaviour<StageManager>
         {
             m_RemainingBubbleAmount = Mathf.Max(0, value);
             OnRemainingBubbleAmountChanged?.Invoke();
-            if (m_RemainingBubbleAmount <= 0 && m_RemainingBossHealth > 0.0f) Lose();
+            if (m_RemainingBubbleAmount <= 0 && m_RemainingBossHealth > 0.0f) StageEnd(false);
         }
     }
 
@@ -229,13 +229,26 @@ public class StageManager : SingletonBehaviour<StageManager>
         else m_Shooter.transform.DOMove(targetShooterPos, 0.3f).SetEase(Ease.OutQuad);
     }
 
-    public void Win()
+    public void StageEnd(bool isWin)
     {
-        Logger.Log($"{GetType()}::Win()");
-    }
+        CanShoot = false;
 
-    public void Lose()
-    {
-        Logger.Log($"{GetType()}::Lose()");
+        var confirmUIData = new ConfirmUIData();
+        confirmUIData.ConfirmType = ConfirmType.OK;
+
+        if (isWin)
+        {
+            confirmUIData.TitleText = "스테이지 클리어!";
+            confirmUIData.DesciptionText = "적을 무찔렀습니다!";
+        }
+        else
+        {
+            confirmUIData.TitleText = "클리어 실패!";
+            confirmUIData.DesciptionText = "더 많은 버블을 부셔 공격해내세요!";
+        }
+        
+        confirmUIData.OKButtonText = "로비";
+        confirmUIData.OnClickOKButton = () => { SceneLoader.Instance.LoadScene(SceneType.Lobby); };
+        UIManager.Instance.OpenUI<ConfirmUI>(confirmUIData);
     }
 }

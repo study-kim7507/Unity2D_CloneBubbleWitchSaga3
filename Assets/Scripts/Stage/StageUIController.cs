@@ -1,16 +1,15 @@
 using UnityEngine;
 
-public class StageUIController : MonoBehaviour
+public class StageUIController : SingletonBehaviour<StageUIController>
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Awake()
     {
-        
+        m_IsDestroyOnLoad = true;
+        Init();
     }
 
-    // Update is called once per frame
-    void Update()
+    protected override void Init()
     {
-        
+        base.Init();
     }
 }

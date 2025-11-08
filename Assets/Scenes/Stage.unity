@@ -532,10 +532,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5273761595691617334, guid: 2a0fd2009a3de6a47b92a8731e10c01a, type: 3}
-      propertyPath: m_Name
-      value: Canvas
-      objectReference: {fileID: 0}
     - target: {fileID: 8592512623058525540, guid: 2a0fd2009a3de6a47b92a8731e10c01a, type: 3}
       propertyPath: m_Name
       value: StageUIController
