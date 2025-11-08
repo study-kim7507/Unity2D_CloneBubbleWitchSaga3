@@ -7,7 +7,6 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
     protected override void Init()
     {
         m_IsDestroyOnLoad = true;
-
         base.Init();
     }
 
@@ -18,8 +17,6 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
         {
             Logger.Log("LobbyUIController does not exist.");
         }
-
-        LobbyUIController.Init();
     }
 
     public void StartInStage()

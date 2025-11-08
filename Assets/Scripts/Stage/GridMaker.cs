@@ -8,14 +8,11 @@ public class GridMaker : MonoBehaviour
 {
     private List<Vector2Int> m_SpawnPositions = new List<Vector2Int>();
     private List<List<Tuple<Vector2Int, Vector2Int>>> m_Paths = new List<List<Tuple<Vector2Int, Vector2Int>>>();
-
-    public List<Vector2Int> GetSpawnPositions() => m_SpawnPositions;
-    public List<List<Tuple<Vector2Int, Vector2Int>>> GetPaths() => m_Paths;
+    [HideInInspector] public List<Vector2Int> GetSpawnPositions() => m_SpawnPositions;
+    [HideInInspector] public List<List<Tuple<Vector2Int, Vector2Int>>> GetPaths() => m_Paths;
 
     public void GenerateGrid(List<Row> grid)
     {
-        Logger.Log($"{GetType()}::GenerateGrid(List<Row> grid)");
-
         List<Row> gridData = StageManager.Instance.CurrentStageStat.GridData;
         if (gridData == null || gridData.Count == 0)
             return;
@@ -36,17 +33,23 @@ public class GridMaker : MonoBehaviour
 
                 if (currentCellData.CellType != GridCellType.EMPTY)
                 {
-                    // 화면 가운데로 정렬하기 위해 포지션 수집
+                    // 그리드를 화면 가운데로 정렬하기 위해 포지션 수집
                     GridManager.Instance.MinBubbleXPos = Mathf.Min(GridManager.Instance.MinBubbleXPos, spawnPos.x);
                     GridManager.Instance.MaxBubbleXPos = Mathf.Max(GridManager.Instance.MaxBubbleXPos, spawnPos.x);
 
-                    currentCell.CellGO = StageManager.Instance.BarrowFromPoolOnGridBubble(spawnPos, currentCellData.CellType, transform);
+                    if (currentCellData.CellType == GridCellType.BUBBLE || currentCellData.CellType == GridCellType.BUBBLE_SPAWNER)
+                        currentCell.CellGO = StageManager.Instance.BarrowFromPoolOnGridBubble(spawnPos, currentCellData.CellType, transform);
+                    else if (currentCellData.CellType == GridCellType.BOSS)
+                        currentCell.CellGO = StageManager.Instance.SpawnBoss(spawnPos);
                     currentCell.CellPosition = spawnPos;
                     currentCell.CellType = currentCellData.CellType;
 
-                    Bubble bubble = currentCell.CellGO.GetComponent<Bubble>();
-                    bubble.colIdx = colIdx;
-                    bubble.rowIdx = rowIdx;
+                    if (currentCellData.CellType == GridCellType.BUBBLE || currentCellData.CellType == GridCellType.BUBBLE_SPAWNER)
+                    {
+                        Bubble bubble = currentCell.CellGO.GetComponent<Bubble>();
+                        bubble.ColIdx = colIdx;
+                        bubble.RowIdx = rowIdx;
+                    }
 
                     if (currentCellData.CellType == GridCellType.BUBBLE_SPAWNER)
                         m_SpawnPositions.Add(new Vector2Int(rowIdx, colIdx));
@@ -62,8 +65,6 @@ public class GridMaker : MonoBehaviour
 
     public void GenerateNewRow(List<Row> grid)
     {
-        if (grid.Count == 0) return;
-
         int columnCount = grid[0].Columns.Count;
         Row newRow = new Row { Columns = new List<GridCell>() };
 

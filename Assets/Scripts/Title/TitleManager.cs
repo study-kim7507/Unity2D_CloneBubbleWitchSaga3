@@ -59,15 +59,17 @@ public class TitleManager : MonoBehaviour
             LoadingSlider.value = m_AsyncOperation.progress < 0.5f ? 0.5f : m_AsyncOperation .progress;
             LoadingProgressText.text = $"{(int)(LoadingSlider.value * 100)}%";
 
-            // 씬 로디잉 완료되었다면 로비로 전환하고 코루틴 종료
+            // 씬 로딩 완료되었다면 로비로 전환하고 코루틴 종료
             if (m_AsyncOperation.progress >= 0.9f)      // allowSceneActivation의 비활성화로 인해 90퍼센트 이후에 멈추므로
             {
-                m_AsyncOperation.allowSceneActivation = true;
+                UIManager.Instance.Fade(Color.black, 0.0f, 1.0f, 0.5f, 0.0f, false, () =>
+                {
+                    m_AsyncOperation.allowSceneActivation = true;
+                });
                 yield break;
             }
 
             yield return null;
         }
     }
-
 }

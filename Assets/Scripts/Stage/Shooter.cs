@@ -48,53 +48,78 @@ public class Shooter : MonoBehaviour
 
     private void ProcessInput()
     {
-        if (StageManager.Instance.CanShoot == false)
+        if (GridManager.Instance.IsChangingGrid || StageManager.Instance.IsEndStage)
             return;
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.touchCount > 0)
         {
-            Vector3 worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition); worldPos.z = 0.0f;
-            float dist = 0.0f;
+            Touch touch = Input.GetTouch(0);
+            Vector3 worldPos = Camera.main.ScreenToWorldPoint(touch.position);
+            worldPos.z = 0.0f;
 
-            dist = Vector3.Distance(worldPos, m_NextShootingBubbleSpawnPos.position);
-            if (dist < 0.5f)
+            switch (touch.phase)
             {
-                SwapBubble();
-                return;
-            }
+                case TouchPhase.Began:
+                    HandleTouchStart(worldPos);
+                    break;
 
-            dist = Vector3.Distance(worldPos, m_CurrentShootingBubbleSpawnPos.position);
-            if (dist < 0.5f)
-            {
-                m_TouchStartPos = worldPos;
-                m_IsDragging = true;
-            }
-        }
-        else if (Input.GetMouseButton(0) && m_IsDragging)
-        {
-            m_TouchCurrentPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                case TouchPhase.Moved:
+                case TouchPhase.Stationary:
+                    if (m_IsDragging)
+                        HandleTouchMove(worldPos);
+                    break;
 
-            Vector2 direction = (m_TouchStartPos - m_TouchCurrentPos).normalized;
-            List<Vector2> path = GetShootPath(m_CurrentShootingBubbleSpawnPos.position, direction);
-            if (path == null)
-            {
-                ClearShootPathLine();
-                GridManager.Instance.DeactivateGlowBubble();
+                case TouchPhase.Ended:
+                case TouchPhase.Canceled:
+                    if (m_IsDragging)
+                        HandleTouchEnd(worldPos);
+                    break;
             }
         }
-        else if (Input.GetMouseButtonUp(0) && m_IsDragging)
-        {
-            m_IsDragging = false;
-            m_TouchCurrentPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+    }
 
-            Vector2 direction = (m_TouchStartPos - m_TouchCurrentPos).normalized;
-            List<Vector2> path = GetShootPath(m_CurrentShootingBubbleSpawnPos.position, direction);
-            if (path != null)
-                StartCoroutine(ShootBubble(path));
-                
+    private void HandleTouchStart(Vector3 worldPos)
+    {
+        float dist = Vector3.Distance(worldPos, m_NextShootingBubbleSpawnPos.position);
+        if (dist < 0.5f)
+        {
+            SwapBubble();
+            return;
+        }
+
+        dist = Vector3.Distance(worldPos, m_CurrentShootingBubbleSpawnPos.position);
+        if (dist < 0.5f)
+        {
+            m_TouchStartPos = worldPos;
+            m_IsDragging = true;
+        }
+    }
+
+    private void HandleTouchMove(Vector3 worldPos)
+    {
+        m_TouchCurrentPos = worldPos;
+        Vector2 direction = (m_TouchStartPos - m_TouchCurrentPos).normalized;
+
+        List<Vector2> path = GetShootPath(m_CurrentShootingBubbleSpawnPos.position, direction);
+        if (path == null)
+        {
             ClearShootPathLine();
             GridManager.Instance.DeactivateGlowBubble();
         }
+    }
+
+    private void HandleTouchEnd(Vector3 worldPos)
+    {
+        m_TouchCurrentPos = worldPos;
+        Vector2 direction = (m_TouchStartPos - m_TouchCurrentPos).normalized;
+        List<Vector2> path = GetShootPath(m_CurrentShootingBubbleSpawnPos.position, direction);
+
+        if (path != null)
+            StartCoroutine(ShootBubble(path));
+
+        ClearShootPathLine();
+        GridManager.Instance.DeactivateGlowBubble();
+        m_IsDragging = false;
     }
 
     private List<Vector2> GetShootPath(Vector2 startPos, Vector2 direction)
@@ -115,7 +140,7 @@ public class Shooter : MonoBehaviour
         if (firstHit.collider.CompareTag("OnGridBubble"))
         {
             Bubble bubble = firstHit.collider.GetComponent<Bubble>();
-            path.Add(GridManager.Instance.ActivateGlowBubble(bubble.rowIdx, bubble.colIdx, firstHit.point));
+            path.Add(GridManager.Instance.ActivateGlowBubble(bubble.RowIdx, bubble.ColIdx, firstHit.point));
             pathForLineRenderer.Add(firstHit.point);
             DrawShootPathLine(pathForLineRenderer);
             return path;
@@ -138,7 +163,7 @@ public class Shooter : MonoBehaviour
             if (secondHit.collider.CompareTag("OnGridBubble"))
             {
                 Bubble bubble = secondHit.collider.GetComponent<Bubble>();
-                path.Add(GridManager.Instance.ActivateGlowBubble(bubble.rowIdx, bubble.colIdx, secondHit.point));
+                path.Add(GridManager.Instance.ActivateGlowBubble(bubble.RowIdx, bubble.ColIdx, secondHit.point));
                 pathForLineRenderer.Add(secondHit.point);
                 DrawShootPathLine(pathForLineRenderer);
                 return path;
@@ -192,7 +217,7 @@ public class Shooter : MonoBehaviour
 
     private IEnumerator ShootBubble(List<Vector2> path)
     {
-        StageManager.Instance.CanShoot = false;
+        GridManager.Instance.IsChangingGrid = true;
         StageManager.Instance.RemainingBubbleAmount--;
 
         Bubble bubble = m_CurrentShootingBubble.GetComponent<Bubble>();

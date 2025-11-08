@@ -34,7 +34,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2772470815233196051, guid: 15582df4e6e00694e9dbb36ea5c202a5, type: 3}
       propertyPath: m_Name
-      value: Bubble_skeleton
+      value: Bubble_spawner
       objectReference: {fileID: 0}
     - target: {fileID: 3759902870873773154, guid: 15582df4e6e00694e9dbb36ea5c202a5, type: 3}
       propertyPath: BubbleColor

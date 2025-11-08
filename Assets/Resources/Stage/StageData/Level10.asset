@@ -34,7 +34,7 @@ MonoBehaviour:
       CellType: 0
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
-      CellType: 0
+      CellType: 3
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
@@ -333,5 +333,5 @@ MonoBehaviour:
     - CellGO: {fileID: 0}
       CellPosition: {x: 0, y: 0, z: 0}
       CellType: 0
-  RemaingBossHealth: 100
-  RemainingBubbleAmount: 5
+  RemaingBossHealth: 30
+  RemainingBubbleAmount: 22

@@ -7,6 +7,8 @@ public enum GridCellType
     BUBBLE,
     BUBBLE_SPAWNER,
 
+    BOSS,
+
     // 그 외 특수 버블, 아이템 등
 }
 

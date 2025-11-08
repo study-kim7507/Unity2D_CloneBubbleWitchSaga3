@@ -90,6 +90,9 @@ public class StageStatEditor : Editor
                     case GridCellType.BUBBLE_SPAWNER:
                         GUI.backgroundColor = Color.white;
                         break;
+                    case GridCellType.BOSS:
+                        GUI.backgroundColor = Color.black;
+                        break;
                 }
 
                 // 버튼 클릭 시, CellTpye이 변경
@@ -106,6 +109,9 @@ public class StageStatEditor : Editor
                             break;
 
                         case GridCellType.BUBBLE_SPAWNER:
+                            currentCell.CellType = GridCellType.BOSS;
+                            break;
+                        case GridCellType.BOSS:
                             currentCell.CellType = GridCellType.EMPTY;
                             break;
                     }

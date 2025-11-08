@@ -532,6 +532,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2262940975374946493, guid: 2a0fd2009a3de6a47b92a8731e10c01a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8592512623058525540, guid: 2a0fd2009a3de6a47b92a8731e10c01a, type: 3}
       propertyPath: m_Name
       value: StageUIController
@@ -546,9 +550,9 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 4712097895454272111}
+  - {fileID: 1550096749504803487}
   - {fileID: 7063927190463582303}
   - {fileID: 6289351490498752913}
-  - {fileID: 1550096749504803487}
   - {fileID: 417882423}
   - {fileID: 619394802}
   - {fileID: 1246513127}

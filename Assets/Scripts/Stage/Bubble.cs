@@ -19,8 +19,12 @@ public enum BubbleColor
 public class Bubble : MonoBehaviour
 {
     // 그리드 위에서의 위치
-    [HideInInspector] public int rowIdx;
-    [HideInInspector] public int colIdx;
+    [HideInInspector] public int RowIdx;
+    [HideInInspector] public int ColIdx;
+
+    // 해당 버블이 보스에게 데미지를 입힐 수 있는지 여부
+    [HideInInspector] public bool CanAttackable;
+    public GameObject SparkVfxGO;
 
     public BubbleColor BubbleColor;
     public GameObject GlowEffect;
@@ -30,6 +34,12 @@ public class Bubble : MonoBehaviour
     private void Awake()
     {
         m_Collider2D = GetComponent<Collider2D>();  
+    }
+
+    private void OnDisable()
+    {
+        CanAttackable = false;
+        SparkVfxGO.SetActive(false);
     }
 
     public void ActivateGlowEffect()

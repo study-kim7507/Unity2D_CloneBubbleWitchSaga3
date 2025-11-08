@@ -24,6 +24,8 @@ public class GridManager : SingletonBehaviour<GridManager>
     [HideInInspector] public float MinBubbleYPos = float.MaxValue;
     [HideInInspector] public float CenterXPos => (MinBubbleXPos + MaxBubbleXPos) / 2.0f;
 
+    [HideInInspector] public bool IsChangingGrid;
+
     private void Awake()
     {
         m_IsDestroyOnLoad = true;           // 씬 전환 시 삭제
@@ -39,6 +41,8 @@ public class GridManager : SingletonBehaviour<GridManager>
 
         m_GlowBubble = Instantiate(m_GlowBubblePrefab, Vector3.zero, Quaternion.identity, transform);
         m_GlowBubble.SetActive(false);
+
+        IsChangingGrid = false;
     }
 
     public void GenerateGrid()
@@ -63,8 +67,8 @@ public class GridManager : SingletonBehaviour<GridManager>
         shootingBubbleGO.tag = "OnGridBubble";
 
         Bubble bubble = shootingBubbleGO.GetComponent<Bubble>();
-        bubble.colIdx = m_TargetColIdx;
-        bubble.rowIdx = m_TargetRowIdx;
+        bubble.ColIdx = m_TargetColIdx;
+        bubble.RowIdx = m_TargetRowIdx;
 
         targetCell.CellGO = shootingBubbleGO;
         targetCell.CellType = GridCellType.BUBBLE;
@@ -72,16 +76,23 @@ public class GridManager : SingletonBehaviour<GridManager>
         if (m_TargetRowIdx == m_Grid.Count - 1)
             m_GridMaker.GenerateNewRow(m_Grid);
 
-        PopBubble(m_TargetRowIdx, m_TargetColIdx);
-        PopFloatingBubbles();
-        yield return StartCoroutine(MoveRemainingBubblesAlongPath());
-        yield return StartCoroutine(SpawnAndMoveNewBubblesAlongPath());
-
-        StageManager.Instance.CanShoot = true;
+        List<Vector3> attackbleBubblePositions = new List<Vector3>();
+        bool isPopped = PopBubble(m_TargetRowIdx, m_TargetColIdx, attackbleBubblePositions);
+        PopFloatingBubbles(attackbleBubblePositions);
+        if (attackbleBubblePositions.Count > 0) yield return StartCoroutine(StageManager.Instance.BossTakenDamage(attackbleBubblePositions));
+        
+        if (isPopped)
+        {
+            yield return StartCoroutine(StageManager.Instance.PlayBossAnim("Attack"));
+            yield return StartCoroutine(MoveRemainingBubblesAlongPath());
+            yield return StartCoroutine(SpawnAndMoveNewBubblesAlongPath());
+        }
+        
+        IsChangingGrid = false;
         StageManager.Instance.UpdateCameraAndShooterPos(m_Grid);
     }
 
-    private void PopBubble(int startRowIdx, int startColIdx)
+    private bool PopBubble(int startRowIdx, int startColIdx, List<Vector3> attackbleBubblePositions)
     {
         int[,,] idxOffset = new int[2, 6, 2]
         {
@@ -148,22 +159,31 @@ public class GridManager : SingletonBehaviour<GridManager>
                 }
             }
         }
-        
 
         if (visited.Count >= 3)
         {
             foreach ((int rowIdx, int colIdx) in visited)
             {
+                Bubble bubble = m_Grid[rowIdx].Columns[colIdx].CellGO.GetComponent<Bubble>();
+                bool isAttackble = bubble.CanAttackable;
+
                 GridCell curCell = m_Grid[rowIdx].Columns[colIdx];
                 StageManager.Instance.ReturnToPoolBubbleGO(curCell.CellGO);
+                StageManager.Instance.SpawnBubblePopVfx(curCell.CellPosition);
                 curCell.CellGO = null;
                 curCell.CellType = GridCellType.EMPTY;
-                StageManager.Instance.SpawnBubblePopVFX(curCell.CellPosition);
+
+                if (isAttackble) attackbleBubblePositions.Add(curCell.CellPosition);
             }
+
+            AudioManager.Instance.PlaySFX(SFX.STAGE_BUBBLE_POP);
+            return true;
         }
+
+        return false;
     }
 
-    private void PopFloatingBubbles()
+    private void PopFloatingBubbles(List<Vector3> attackbleBubblePositions)
     {
         int[,,] idxOffset = new int[2, 6, 2]
         {
@@ -213,11 +233,16 @@ public class GridManager : SingletonBehaviour<GridManager>
                 GridCell cell = m_Grid[rowIdx].Columns[colIdx];
                 if (cell.CellType == GridCellType.BUBBLE && !visited.Contains((rowIdx, colIdx)))
                 {
+                    Bubble bubble = m_Grid[rowIdx].Columns[colIdx].CellGO.GetComponent<Bubble>();
+                    bool isAttackble = bubble.CanAttackable;
+
                     // 파괴
                     StageManager.Instance.ReturnToPoolBubbleGO(cell.CellGO);
+                    StageManager.Instance.SpawnBubblePopVfx(cell.CellPosition);
                     cell.CellGO = null;
                     cell.CellType = GridCellType.EMPTY;
-                    StageManager.Instance.SpawnBubblePopVFX(cell.CellPosition);
+
+                    if (isAttackble) attackbleBubblePositions.Add(cell.CellPosition);
                 }
             }
         }
@@ -268,8 +293,8 @@ public class GridManager : SingletonBehaviour<GridManager>
                 movingCell.CellType = GridCellType.EMPTY;
 
                 Bubble bubble = curCell.CellGO.GetComponent<Bubble>();
-                bubble.rowIdx = ordered[i].x;
-                bubble.colIdx = ordered[i].y;
+                bubble.RowIdx = ordered[i].x;
+                bubble.ColIdx = ordered[i].y;
 
                 Sequence subSequence = DOTween.Sequence();
                 foreach (var targetPos in movePositions)
@@ -342,8 +367,8 @@ public class GridManager : SingletonBehaviour<GridManager>
                 targetCell.CellGO = bubbleGO;
                 targetCell.CellType = GridCellType.BUBBLE;
 
-                bubble.rowIdx = targetCellRowIdx;
-                bubble.colIdx = targetCellColIdx;
+                bubble.RowIdx = targetCellRowIdx;
+                bubble.ColIdx = targetCellColIdx;
 
                 Sequence subSequence = DOTween.Sequence();
                 foreach (var targetPosition in movePositions)
