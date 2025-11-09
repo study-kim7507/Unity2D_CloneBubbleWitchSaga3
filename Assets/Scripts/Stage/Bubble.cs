@@ -24,11 +24,11 @@ public class Bubble : MonoBehaviour
 
     // 해당 버블이 보스에게 데미지를 입힐 수 있는지 여부
     [HideInInspector] public bool CanAttackable;
-    public GameObject SparkVfxGO;
-
+    public GameObject SparkVfxGO;                   // 보스에게 데미지를 입힐 수 있는 버블의 경우 추가 이펙트를 보여주기 위함
+    public GameObject GlowEffect;                   // Shooter에 있는 버블의 경우 추가 이펙트를 보여주기 위함
+    
     public BubbleColor BubbleColor;
-    public GameObject GlowEffect;
-
+   
     private Collider2D m_Collider2D;
 
     private void Awake()
@@ -52,6 +52,7 @@ public class Bubble : MonoBehaviour
         GlowEffect.SetActive(false);
     }
 
+    // 주어진 경로를 따라 DOTween으로 이동처리
     public IEnumerator MoveAlongPath(List<Vector2> paths)
     {
         Sequence sequence = DOTween.Sequence();

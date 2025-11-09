@@ -5,6 +5,7 @@ public class LobbyUIController : SingletonBehaviour<LobbyUIController>
     private void Awake()
     {
         m_IsDestroyOnLoad = true;
+
         Init();
     }
 
@@ -17,14 +18,12 @@ public class LobbyUIController : SingletonBehaviour<LobbyUIController>
 
     public void OnClickStartButton()
     {
-        Logger.Log($"{GetType()}::OnClickStartButton");
-
         AudioManager.Instance.PlaySFX(SFX.UI_BUTTON_CLICK);
         AudioManager.Instance.StopBGM();
         UIManager.Instance.Fade(Color.black, 0.0f, 1.0f, 0.5f, 0.0f, false, () =>
         {
             UIManager.Instance.CloseAllOpenUI();
-            LobbyManager.Instance.StartInStage();
+            LobbyManager.Instance.LoadStage();
         });
     }
 }

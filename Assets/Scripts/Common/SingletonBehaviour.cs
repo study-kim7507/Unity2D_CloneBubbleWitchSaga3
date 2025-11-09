@@ -18,8 +18,6 @@ public class SingletonBehaviour<T> : MonoBehaviour where T : SingletonBehaviour<
 
     protected virtual void Init()
     {
-        Logger.Log($"{GetType()}::Init");
-
         if (m_Instance == null)
         {
             m_Instance = (T)this;

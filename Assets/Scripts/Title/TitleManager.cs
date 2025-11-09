@@ -30,8 +30,6 @@ public class TitleManager : MonoBehaviour
 
     private IEnumerator LoadGameCo()
     {
-        Logger.Log($"{GetType()}::LoadGameCo");
-
         LogoAnim.Play();
         yield return new WaitForSeconds(LogoAnim.clip.length);
 

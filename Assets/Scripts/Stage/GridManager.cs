@@ -1,8 +1,9 @@
-﻿using DG.Tweening;
+﻿// 해당 클래스는 플레이 중 바뀌는 그리드 관리를 위한 클래스
+
+using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
 
 public class GridManager : SingletonBehaviour<GridManager>
@@ -29,12 +30,12 @@ public class GridManager : SingletonBehaviour<GridManager>
     private void Awake()
     {
         m_IsDestroyOnLoad = true;           // 씬 전환 시 삭제
+
         Init();
     }
 
     protected override void Init()
     {
-        Logger.Log($"{GetType()}::Initialize()");
         base.Init();
 
         m_GridMaker = GetComponent<GridMaker>();
@@ -84,6 +85,7 @@ public class GridManager : SingletonBehaviour<GridManager>
         if (isPopped)
         {
             yield return StartCoroutine(StageManager.Instance.PlayBossAnim("Attack"));
+            AudioManager.Instance.PlaySFX(SFX.STAGE_BUBBLE_SPAWN);
             yield return StartCoroutine(MoveRemainingBubblesAlongPath());
             yield return StartCoroutine(SpawnAndMoveNewBubblesAlongPath());
         }

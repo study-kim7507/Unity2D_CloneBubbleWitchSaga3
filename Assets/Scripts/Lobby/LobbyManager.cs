@@ -7,19 +7,16 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
     protected override void Init()
     {
         m_IsDestroyOnLoad = true;
+
         base.Init();
     }
 
     private void Start()
     {
         LobbyUIController = FindObjectOfType<LobbyUIController>();
-        if (!LobbyUIController)
-        {
-            Logger.Log("LobbyUIController does not exist.");
-        }
     }
 
-    public void StartInStage()
+    public void LoadStage()
     {
         SceneLoader.Instance.LoadScene(SceneType.Stage);
     }

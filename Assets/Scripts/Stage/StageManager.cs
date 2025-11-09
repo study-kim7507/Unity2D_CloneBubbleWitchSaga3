@@ -102,7 +102,7 @@ public class StageManager : SingletonBehaviour<StageManager>
                 },
                 actionOnGet: (go) => go.SetActive(true),
                 actionOnRelease: (go) => go.SetActive(false),
-                collectionCheck: true,              // 이미 풀로 반환된 오브젝트가 다시 반환되는 경우 에러
+                collectionCheck: true,          // 이미 풀로 반환된 오브젝트가 다시 반환되는 경우 에러
                 defaultCapacity: 10
                 );
         }
@@ -131,7 +131,7 @@ public class StageManager : SingletonBehaviour<StageManager>
            },
            actionOnGet: (go) => go.SetActive(true),
            actionOnRelease: (go) => go.SetActive(false),
-           collectionCheck: true,              // 이미 풀로 반환된 오브젝트가 다시 반환되는 경우 에러
+           collectionCheck: true,               // 이미 풀로 반환된 오브젝트가 다시 반환되는 경우 에러
            defaultCapacity: 10
            );
 
@@ -139,8 +139,10 @@ public class StageManager : SingletonBehaviour<StageManager>
         IsEndStage = false;
     }
 
+    // 리소스 폴더로부터 스크립터블 오브젝트 데이터를 읽어와 런타임에 사용할 데이터를 초기화하는 함수
     private void StartStage()
     {
+        
         string path = $"Stage/StageData/Level{m_CurrentStageLevel}";
         CurrentStageStat = Resources.Load<StageStat>(path);
 
@@ -154,11 +156,12 @@ public class StageManager : SingletonBehaviour<StageManager>
         m_RemainingBossHealth = CurrentStageStat.RemaingBossHealth;
         m_RemainingBubbleAmount = CurrentStageStat.RemainingBubbleAmount;
 
-        GridManager.Instance.GenerateGrid();
-
+        // 그리드 생성 후, FadeOut효과
+        GridManager.Instance.GenerateGrid();                                                    
         UIManager.Instance.Fade(Color.black, 1.0f, 0.0f, 0.5f, 0.0f, true, () => AudioManager.Instance.PlayBGM(BGM.STAGE, 0.5f));
     }
 
+    // 스테이지 종료 시, 승/패 여부에 따라 UI를 보여줌
     private IEnumerator EndStage(bool isWin)
     {
         yield return new WaitUntil(() => GridManager.Instance.IsChangingGrid == false);
@@ -183,18 +186,21 @@ public class StageManager : SingletonBehaviour<StageManager>
         confirmUIData.OnClickOKButton = () => {
             UIManager.Instance.Fade(Color.black, 0.0f, 1.0f, 0.5f, 0.0f, false, () =>
             {
+                AudioManager.Instance.StopBGM();
                 SceneLoader.Instance.LoadScene(SceneType.Lobby);
             });
         };
         UIManager.Instance.OpenUI<ConfirmUI>(confirmUIData);
     }
 
+    // 보스 스폰
     public GameObject SpawnBoss(Vector3 spawnPosition)
     {
         m_BossGO = Instantiate(m_BossPrefab, spawnPosition, Quaternion.identity, GridManager.Instance.transform);
         return m_BossGO;
     }
 
+    // 보스가 데미지를 입도록 처리 + 애니메이션 재생
     public IEnumerator BossTakenDamage(List<Vector3> attackableBubblePositions)
     {
         Vector3 bossPosition = m_BossGO.transform.position;
@@ -225,6 +231,7 @@ public class StageManager : SingletonBehaviour<StageManager>
         yield return StartCoroutine(boss.PlayAnim(triggerName));
     }
 
+    // 그리드의 가장 최하단 버블의 위치에 따라 카메라, 슈터의 위치를 조정해주는 함수
     public void UpdateCameraAndShooterPos(List<Row> grid, bool isInit = false)
     {
         float minY = float.MaxValue;

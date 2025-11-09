@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
@@ -12,6 +11,7 @@ public class Boss : MonoBehaviour
         m_Animator = GetComponent<Animator>();
     }
 
+    // 애니메이션을 재생하고, 해당 애니메이션이 끝날 때까지 대기하도록 하는 코루틴 함수
     public IEnumerator PlayAnim(string triggerName)
     {
         m_Animator.SetTrigger(triggerName);
