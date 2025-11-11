@@ -1,29 +1,43 @@
 using UnityEngine;
 
+[ExecuteAlways]
+[RequireComponent(typeof(Camera))]
 public class CameraResolution : MonoBehaviour
 {
+    [Header("기준 해상도 (예: 1080x1920 기준)")]
+    public float referenceWidth = 1080f;
+    public float referenceHeight = 1920f;
+
+    private Camera cam;
+
+    void Awake()
+    {
+        cam = GetComponent<Camera>();
+    }
+
     void Start()
     {
-        float targetWidthAspect = 9.0f;
-        float targetHeightAspect = 16.0f;
+        AdjustCameraSize();
+    }
 
-        float targetWidthAspectPort = targetWidthAspect / targetHeightAspect;
-        float targetHeightAspectPort = targetHeightAspect / targetWidthAspect;
+    void AdjustCameraSize()
+    {
+        float targetAspect = referenceWidth / referenceHeight;
+        float currentAspect = (float)Screen.width / Screen.height;
 
-        float currentWidthAspectPort = (float)Screen.width / (float)Screen.height;
-        float currentHeightAspectPort = (float)Screen.height / (float)Screen.width;
+        // 기본 세로 해상도 기준 orthographic size
+        float baseOrthographicSize = cam.orthographicSize;
 
-        float viewPortW = targetWidthAspectPort / currentWidthAspectPort;
-        float viewPortH = targetHeightAspectPort / currentHeightAspectPort;
-
-        if (viewPortH > 1)
-            viewPortH = 1;
-        if (viewPortW > 1)
-            viewPortW = 1;
-        Camera.main.rect = new Rect(
-            (1 - viewPortW) / 2,
-            (1 - viewPortH) / 2,
-            viewPortW,
-            viewPortH);
+        if (currentAspect < targetAspect)
+        {
+            // 세로로 더 긴 화면: 위아래가 잘릴 수 있으니 카메라 확대
+            float scaleFactor = targetAspect / currentAspect;
+            cam.orthographicSize = baseOrthographicSize * scaleFactor;
+        }
+        else
+        {
+            // 가로가 더 넓은 화면은 기본 사이즈 유지
+            cam.orthographicSize = baseOrthographicSize;
+        }
     }
 }
